@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import pprint
+import sys
 
 from collections import Counter, defaultdict, namedtuple
 from dataclasses import dataclass
@@ -15,7 +16,7 @@ import torch
 from scipy.stats import entropy
 from sklearn.metrics import accuracy_score, auc, average_precision_score, classification_report, precision_recall_curve, roc_auc_score
 
-from rationale_benchmark.utils import (
+from utils import (
     Annotation,
     Evidence,
     annotations_from_jsonl,
@@ -403,6 +404,7 @@ def verify_instance(instance: dict, docs: Dict[str, list], thresholds: Set[float
             logging.info('Error! For instance annotation={instance["annotation_id"]}, docid={docid} appear {count} times, may only appear once!')
 
     classification = instance.get('classification', '')
+    classification = str(classification)
     if not isinstance(classification, str):
         logging.info(f'Error! For instance annotation={instance["annotation_id"]}, classification field {classification} is not a string!')
         error = True
